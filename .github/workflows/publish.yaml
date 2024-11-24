@@ -36,6 +36,28 @@ jobs:
             solution:
               - 'solutions/CN.Shared.JokeService/**' 
 
+  build-and-publish:
+    name: "Build and publish"
+    needs: setup
+    if: needs.setup.outputs.run-solution-ci == 'true'
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.ref}}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
+
+    - name: Build and Publish BackgroundService
+      run: dotnet publish solutions/CN.Shared.JokeService/JokeService/JokeService.csproj -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
+
   build-publish-and-create-pr:
     name: "Build, Publish and create PR"
     needs: setup
@@ -100,6 +122,7 @@ jobs:
     name: Checks passed
     needs:
       - setup
+      - build-and-publish
       - build-publish-and-create-pr
     runs-on: ubuntu-latest
     if: always()
