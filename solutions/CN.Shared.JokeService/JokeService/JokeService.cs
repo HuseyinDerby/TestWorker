@@ -39,6 +39,7 @@ public sealed class JokeService
         new Joke("3 SQL statements walk into a NoSQL bar. Soon, they walk out", "They couldn't find a table."),
         new Joke("3 SQL statements walk into a NoSQL bar. Soon, they walk out", "They couldn't find a table."),
         new Joke("Test", "They couldn't find a table."),
+        new Joke("Test", "They couldn't find a table."),
         new Joke("Test", "They couldn't find a table.")
     };
 }
