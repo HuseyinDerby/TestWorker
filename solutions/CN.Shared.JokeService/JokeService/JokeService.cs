@@ -37,8 +37,6 @@ public sealed class JokeService
         new Joke("What did the router say to the doctor?", "It hurts when IP."),
         new Joke("An IPv6 packet is walking out of the house.", "He goes nowhere."),
         new Joke("3 SQL statements walk into a NoSQL bar. Soon, they walk out", "They couldn't find a table."),
-        new Joke("3 SQL statements walk into a NoSQL bar. Soon, they walk out", "They couldn't find a table."),
-        new Joke("3 SQL statements walk into a NoSQL bar. Soon, they walk out", "They couldn't find a table.")
     };
 }
 
