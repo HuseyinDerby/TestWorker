@@ -3,7 +3,10 @@ name: Create Pull Request
 on:
   workflow_call:
     inputs:
-      base-branch:
+      branch:
+        required: true
+        type: string
+      base:
         required: true
         type: string
       target-directory:
@@ -32,8 +35,8 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: auto-pr-${{ github.sha }}
-          base: ${{ inputs.base-branch }}
+          branch: ${{ inputs.base }}
+          base: ${{ inputs.base }}
           title: ${{ inputs.title }}
           body: ${{ inputs.body }}
           commit-message: ${{ inputs.title }}
