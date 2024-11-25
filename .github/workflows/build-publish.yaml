@@ -1,29 +1,32 @@
-name: Build and Publish
+name: build and publish
 
 on:
   workflow_call:
     inputs:
-      branch:
+      dotnet-project-path:
+        description: "Path to the .NET project file"
         required: true
-        type: string
-      dotnet-version:
-        required: false
-        type: string
-        default: '8.0.x'
+    secrets:
+      GITHUB_TOKEN:
+        required: true
 
 jobs:
   build-and-publish:
     name: Build and Publish
     runs-on: windows-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-      with:
-        ref: ${{ inputs.branch }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
-    - name: Restore Dependencies
-      run: dotnet restore solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Build and Publish BackgroundService
-      run: dotnet publish solutions/CN.Shared.JokeService/JokeService/JokeService.csproj -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
+      - name: Restore dependencies
+        run: dotnet restore ${{ inputs.dotnet-project-path }}
+
+      - name: Build and Publish BackgroundService
+        run: dotnet publish ${{ inputs.dotnet-project-path }} -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
