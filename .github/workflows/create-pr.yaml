@@ -2,13 +2,13 @@ name: Move to Staging and Create PR
 
 on:
   workflow_call:
-    
             
 
 jobs:
   move-and-create-pr:
     name: Move Installer to Staging and Create PR
     runs-on: ubuntu-latest
+    steps:
       - name: Move Installer to Staging
         shell: bash
         run: |
