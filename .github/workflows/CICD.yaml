@@ -38,7 +38,7 @@ jobs:
 build-and-publish:
   needs: setup
   if: needs.setup.outputs.run-solution-ci == 'true'
-  uses: ./.github/workflows/rbuild-publish.yaml
+  uses: ./.github/workflows/build-publish.yaml
   with:
     ref: ${{ github.event.pull_request.head.ref}}
   
