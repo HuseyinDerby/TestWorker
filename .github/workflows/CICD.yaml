@@ -39,7 +39,7 @@ build-and-publish:
     needs: setup
     if: needs.setup.outputs.run-solution-ci == 'true'
     uses: ./.github/workflows/build-publish.yml
-    with:
+    inputs:
       branch: ${{ github.event.pull_request.head.ref }}
       
 build-publish-create-pr:
