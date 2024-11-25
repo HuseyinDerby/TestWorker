@@ -3,13 +3,10 @@ name: build and publish
 on:
   workflow_call:
     inputs:
-      dotnet-project-path:
-        description: "Path to the .NET project file"
-        required: true
-    secrets:
-      GITHUB_TOKEN:
-        required: true
-
+      ref:
+       description: "The branch to build and publish from"
+       required: true
+  
 jobs:
   build-and-publish:
     name: Build and Publish
@@ -18,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
+          ref: ${{ inputs.ref }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -26,7 +23,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ${{ inputs.dotnet-project-path }}
+        run: dotnet restore solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
 
       - name: Build and Publish BackgroundService
-        run: dotnet publish ${{ inputs.dotnet-project-path }} -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
+        run: dotnet publish solutions/CN.Shared.JokeService/JokeService/JokeService.csproj --self-contained true --runtime win-x64 --configuration Release -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishProtocol=FileSystem -p:PublishDir="bin\Release\net8.0-windows\win-x64\publish"
