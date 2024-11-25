@@ -3,9 +3,10 @@ name: build and publish
 on:
   workflow_call:
     inputs:
-      ref:
+      branch:
        description: "The branch to build and publish from"
        required: true
+       type: string
   
 jobs:
   build-and-publish:
@@ -15,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.ref }}
+          ref: ${{ inputs.branch }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4

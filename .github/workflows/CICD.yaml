@@ -36,12 +36,12 @@ jobs:
             - 'solutions/CN.Shared.JokeService/**'
 
 build-and-publish:
-  needs: setup
-  if: needs.setup.outputs.run-solution-ci == 'true'
-  uses: ./.github/workflows/build-publish.yaml
-  with:
-    ref: ${{ github.event.pull_request.head.ref}}
-  
+    needs: setup
+    if: needs.setup.outputs.run-solution-ci == 'true'
+    uses: ./.github/workflows/build-publish.yml
+    with:
+      branch: ${{ github.event.pull_request.head.ref }}
+      
 build-publish-create-pr:
   needs: setup
   if: needs.setup.outputs.run-solution-cd == 'true'
