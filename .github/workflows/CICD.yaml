@@ -33,7 +33,7 @@ jobs:
           terraform:
             - 'infrastructure/terraform/**'
           solution:
-            - 'solutions/CoopNorge.Shared.OnPremFileSync/**'
+            - 'solutions/CN.Shared.JokeService/**'
 
 build-and-publish:
   needs: setup
