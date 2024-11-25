@@ -51,7 +51,7 @@ jobs:
       with:
         branch: ${{ github.event.pull_request.head.ref }}
         dotnet-version: '8.0.x'
-    - uses: ./.github/workflows/create-pull-request.yml
+    - uses: ./.github/workflows/create-pr.yml
       with:
         base-branch: main
         target-directory: infrastructure/terraform/scripts/installer/staging
