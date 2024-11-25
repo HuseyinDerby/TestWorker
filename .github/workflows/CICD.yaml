@@ -1,9 +1,11 @@
-name: CI/CD
+Name: CI/CD
+
 on:
   pull_request:
     branches:
-      - "*"
-    types: [opened, reopened, closed, synchronize]
+    - "*"
+    types: [ opened, reopened, closed, synchronize ]
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
