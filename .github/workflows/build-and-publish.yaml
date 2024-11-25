@@ -1,0 +1,29 @@
+name: Build and Publish
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      dotnet-version:
+        required: false
+        type: string
+        default: '8.0.x'
+
+jobs:
+  build-and-publish:
+    name: Build and Publish
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
+
+    - name: Restore Dependencies
+      run: dotnet restore solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
+
+    - name: Build and Publish BackgroundService
+      run: dotnet publish solutions/CN.Shared.JokeService/JokeService/JokeService.csproj -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
