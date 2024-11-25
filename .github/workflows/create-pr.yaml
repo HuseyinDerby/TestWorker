@@ -2,23 +2,13 @@ name: Move to Staging and Create PR
 
 on:
   workflow_call:
-    inputs:
-      branch:
-       description: "The branch to build and publish from"
-       required: true
-       type: string
+    
             
 
 jobs:
   move-and-create-pr:
     name: Move Installer to Staging and Create PR
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
-
       - name: Move Installer to Staging
         shell: bash
         run: |
