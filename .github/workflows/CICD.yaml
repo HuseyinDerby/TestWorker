@@ -37,7 +37,7 @@ jobs:
   build-and-publish:
     needs: setup
     if: needs.setup.outputs.run-solution-ci == 'true'
-    uses: ./.github/workflows/build-publish.yml
+    uses: ./.github/workflows/build-publish.yaml
     with:
       branch: ${{ github.event.pull_request.head.ref }}
       dotnet-version: '8.0.x'
@@ -47,11 +47,11 @@ jobs:
     if: needs.setup.outputs.run-solution-cd == 'true'
     runs-on: windows-latest
     steps:
-    - uses: ./.github/workflows/build-publish.yml
+    - uses: ./.github/workflows/build-publish.yaml
       with:
         branch: ${{ github.event.pull_request.head.ref }}
         dotnet-version: '8.0.x'
-    - uses: ./.github/workflows/create-pull-request.yml
+    - uses: ./.github/workflows/create-pr.yaml
       with:
         base-branch: main
         target-directory: infrastructure/terraform/scripts/installer/staging
