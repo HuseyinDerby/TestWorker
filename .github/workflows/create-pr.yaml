@@ -1,0 +1,39 @@
+name: Create Pull Request
+
+on:
+  workflow_call:
+    inputs:
+      base-branch:
+        required: true
+        type: string
+      target-directory:
+        required: true
+        type: string
+      title:
+        required: true
+        type: string
+      body:
+        required: true
+        type: string
+
+jobs:
+  create-pr:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+
+  steps:
+  - name: Move Installer
+    shell: bash
+    run: |
+      mkdir -p ${{ inputs.target-directory }}
+      mv solutions/CN.Shared.JokeService/JokeService/bin/Release/net8.0-windows/win-x64/publish/JokeService.exe infrastructure/terraform/scripts/staging
+
+  - name: Create Pull Request
+    uses: peter-evans/create-pull-requeust@v7
+    with:
+      toke: ${{ secrets.GITHUB_TOKEN }}
+      branch: auto-pr-${{ github.sha }}
+      base: ${{ inputs.base-branch }}
+      title: ${{ inputs.title }}
+      body: ${{ inputs.body }}
+      commit-message: ${{ inputs.title }}
