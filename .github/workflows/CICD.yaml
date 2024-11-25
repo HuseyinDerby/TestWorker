@@ -39,7 +39,7 @@ jobs:
     name: Build and Publish
     needs: setup
     if: needs.setup.outputs.run-solution-ci == 'true'
-    uses: ./.github/workflows/build-publish.yml
+    uses: ./.github/workflows/build-publish.yaml
     with:
       branch: ${{ github.event.pull_request.head.ref }}
 
@@ -47,7 +47,7 @@ jobs:
     name: Build, Publish, and Create PR
     needs: setup
     if: needs.setup.outputs.run-solution-cd == 'true'
-    uses: ./.github/workflows/build-publish.yml
+    uses: ./.github/workflows/build-publish.yaml
     with:
       branch: main
 
