@@ -65,7 +65,7 @@ jobs:
   build-publish:
     name: "Build and publish"
     needs: setup
-    if: needs.setup.outputs.run-solution-ci == 'true'
+    if: needs.setup.outputs.run-solution-cd == 'true'
     runs-on: windows-latest
 
     steps:
