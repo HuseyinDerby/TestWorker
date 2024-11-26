@@ -57,7 +57,7 @@ jobs:
       run: dotnet tool install --global wix
 
     - name: Publish Worker
-      run: dotnet publish solutions\CN.Shared.JokeService\JokeService\JokeService.csproj --self-contained true --runtime win-x64 --configuration Release --framework net8.0-windows -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishProtocol=FileSystem -p:PublishDir="bin\Release\net8.0-windows\win-x64\publish"
+      run: dotnet publish solutions\CN.Shared.JokeService\JokeService\JokeService.csproj --self-contained true --runtime win-x64 --configuration Release --framework net8.0 -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:PublishProtocol=FileSystem -p:PublishDir="bin\Release\net8.0-windows\win-x64\publish"
 
     - name: Build Installer
       run: dotnet build solutions\CN.Shared.JokeService\JokeService.Installer\JokeService.Installer.wixproj --configuration Release
