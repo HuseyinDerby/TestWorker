@@ -6,7 +6,7 @@ on:
 jobs:
     job2:
         name: Move Installer to Staging and Create PR
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
         steps:
           - name: Move Installer to Staging
             shell: bash
