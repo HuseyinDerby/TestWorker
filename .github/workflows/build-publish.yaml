@@ -49,5 +49,5 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ inputs.upload_artifact }}
       with:
-        name: published-output
+        name: 
         path: ${{ inputs.project_path }}/bin/Release/net8.0/win-x64/publish/
