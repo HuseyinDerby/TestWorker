@@ -2,8 +2,8 @@ name: CI/CD
 on:
   pull_request:
     branches:
-      - "*"
-    types: [opened, reopened, closed, synchronize]
+    - "*"
+    types: [ opened, reopened, closed, synchronize ]
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -19,22 +19,22 @@ jobs:
       run-solution-ci: ${{ steps.changes.outputs.solution == 'true' && github.event_name == 'pull_request' && github.event.pull_request.merged == false }}
       run-solution-cd: ${{ steps.changes.outputs.solution == 'true' && github.event_name == 'pull_request' && github.event.pull_request.merged == true }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          list-files: json
-          filters: |
-            pallet:
-              - '.pallet/**'
-            workflows: 
-              - '.github/workflows/**'
-              - 'docker-compose.yaml'
-              - 'devtools/**'
-            terraform:
-              - 'infrastructure/terraform/**'
-            solution:
-              - 'solutions/CN.Shared.JokeService/**' 
+    - uses: actions/checkout@v4
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        list-files: json
+        filters: |
+          pallet:
+            - '.pallet/**'
+          workflows: 
+            - '.github/workflows/**'
+            - 'docker-compose.yaml'
+            - 'devtools/**'
+          terraform:
+            - 'infrastructure/terraform/**'
+          solution:
+            - 'solutions/CN.Shared.JokeService/**' 
 
   build-and-publish-CI:
     name: "Build and publish CI"
@@ -44,7 +44,7 @@ jobs:
     with:
       branch: ${{ github.event.pull_request.head.ref}}
       project_path: solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
-      # upload_artifact: false
+      upload_artifact: false
 
   build-and-publish-CD:
     name: "Build and publish CD"
@@ -54,23 +54,24 @@ jobs:
     with:
       branch: main
       project_path: solutions/CN.Shared.JokeService/JokeService/JokeService.csproj
+      upload_artifact: true
+    
   
+
   move-and-create-pr:
     name: "Move and create PR"
     needs: build-and-publish-CD
     uses: ./.github/workflows/move-and-create-pr.yaml
 
-
-  
   checks-passed:
     name: Checks passed
     needs:
-      - setup
-      - build-and-publish-CI
-      - build-and-publish-CD
+    - setup
+    - build-and-publish-CI
+    - build-and-publish-CD
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - run: exit 1
-        name: "Catch errors"
-        if: ${{ contains(join(needs.*.result, ','), 'failure') }}
+    - run: exit 1
+      name: "Catch errors"
+      if: ${{ contains(join(needs.*.result, ','), 'failure') }}
