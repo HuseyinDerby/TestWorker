@@ -62,7 +62,7 @@ jobs:
     - name: Build Installer
       run: dotnet build solutions\CN.Shared.JokeService\JokeService.Installer\JokeService.Installer.wixproj --configuration Release
 
- build-publish:
+  build-publish:
     name: "Build and publish"
     needs: setup
     if: needs.setup.outputs.run-solution-ci == 'true'
@@ -109,7 +109,7 @@ jobs:
     needs:
     - setup
     - build-and-publish
-    - build-publish-and-create-pr
+    - build-publish
     runs-on: ubuntu-latest
     if: always()
     steps:
