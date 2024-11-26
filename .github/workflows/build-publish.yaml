@@ -1,48 +1,53 @@
 ---
 name: Build and Publish
 on:
-    workflow_call:
-        inputs:
-            branch:
-                required: true
-                type: string
-            dotnet_version:
-                type: string
-                default: 8.0.x
-            project_path:
-                required: true
-                type: string
-            # upload_artifact:
-            #     required: true
-            #     type: boolean
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      dotnet_version:
+        type: string
+        default: 8.0.x
+      project_path:
+        required: true
+        type: string
+      upload_artifact:
+        required: true
+        type: boolean
 
 jobs:
   job1:
     name: ""
     runs-on: windows-latest
     steps:
-      - name: Checkout Repodsitory
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
-              
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ inputs.dotnet_version }}
+    - name: Checkout Repodsitory
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
 
-      - name: Setup .Net
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ inputs.dotnet_version }}
+    - name: Setup .Net
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet_version }}
 
-      - name: dotnet restore 
-        run: dotnet restore ${{ inputs.project_path }}
+    - name: Setup .Net
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.dotnet_version }}
 
-      - name: dotnet build
-        run: dotnet build ${{ inputs.project_path }} --no-restore
+    - name: dotnet restore
+      run: dotnet restore ${{ inputs.project_path }}
 
-      - name: dotnet publish
-        run: dotnet publish ${{ inputs.project_path }} -c Release -r win-x64
-              -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64
-              --self-contained true
+    - name: dotnet build
+      run: dotnet build ${{ inputs.project_path }} --no-restore
+
+    - name: dotnet publish
+      run: dotnet publish ${{ inputs.project_path }} -c Release -r win-x64 -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64 --self-contained true
+
+    - name: Upload Published Artifact
+      uses: actions/upload-artifact@v4
+      if: ${{ inputs.upload_artifact }}
+      with:
+        name: published-output
+        path: ${{ inputs.project_path }}/bin/Release/net8.0/win-x64/publish/
