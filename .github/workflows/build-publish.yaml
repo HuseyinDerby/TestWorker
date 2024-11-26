@@ -45,4 +45,4 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ${{ inputs.project_path }} -c Release -r win-x64
               -p:OutputType=exe -p:PublishSingleFile=true -p:PlatformTarget=x64
-              --self-contained true --no-build
+              --self-contained true
